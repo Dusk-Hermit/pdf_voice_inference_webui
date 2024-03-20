@@ -1,0 +1,1 @@
+..\..\runtime\python test2.py

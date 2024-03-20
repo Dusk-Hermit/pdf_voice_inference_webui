@@ -1,0 +1,8 @@
+{
+    "GPTSOVITS_BASE": "D:\\git_download\\GPT-SoVITS-beta0217",
+    "default_gpt_weight": "D:\\git_download\\GPT-SoVITS-beta0217\\GPT_weights\\saileach-e15.ckpt",
+    "default_sovits_weight": "D:\\git_download\\GPT-SoVITS-beta0217\\SoVITS_weights\\saileach_e8_s232.pth",
+    "ref_wav_path": "C:\\Users\\Dusk_Hermit\\Desktop\\saileach\\raw\\信赖触摸.wav",
+    "prompt_text": "您是不是累了？这是我烤的甜司康饼。您可以坐下来，喝点茶，与我说说您的烦心事。",
+    "prompt_language_text": "中文"
+}
