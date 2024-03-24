@@ -41,6 +41,7 @@ export default {
                 this.refresh_checkbox_by_data()
                 this.bbox_respond_to_change()
                 this.nav_bar_change(this.nav_num)
+                this.change_width()
             }
         )
 
@@ -380,6 +381,11 @@ export default {
             let absolute_width = window.parent.document.getElementById('left').offsetWidth - 50
             absolute_width = absolute_width > 0 ? absolute_width : 0
             this.$refs.VoiceControls.shown_text_length = Math.floor(absolute_width / 10)
+
+            // logo height change
+            const logo = window.parent.document.getElementsByClassName('background-image')[0]
+            logo.style.height=Math.floor(logo.offsetWidth*0.75)+'px'
+            // logo.style.height=logo.offsetWidth*0.75+'px'
         }
     }
 
@@ -390,22 +396,26 @@ export default {
 
 <template>
     <div class="controls-container">
+        <div class="background-image">
+
+        </div>
         <div class="line-1">
-            <div class="logo">
-                <img src="../assets/image/logo.png" alt="logo" class="logo-img" />
+
+            <!-- <div class="width-control"> -->
+            <div style="background-color: white;grid-row:1/2;grid-column: 1/2;border: 2px solid #ccc;    border-radius: 5px;width: 80%;text-align: center;padding: 5px;margin: 5px;">
+
+                左侧栏宽度比例：
             </div>
-            <div class="width-control">
-                <p class="input-description">左侧栏宽度比例：</p>
-                <input type="number" step="0.05" max="0.8" min="0.15" v-model="width_control" @input="change_width"
-                    class="custom-input" />
-            </div>
-            <div class="pdf-changer">
-                <input type="text" placeholder="请输入pdf路径" v-model="pdf_path" @keyup="keyup_submit"
-                    style="width: 60%;" />
-                <button type="button" class="custom-button" @click="change_pdf">
-                    确认切换
-                </button>
-            </div>
+            <input type="number" step="0.05" max="0.8" min="0.15" v-model="width_control" @input="change_width"
+                class="custom-input" style="grid-row:1/2;grid-column: 2/3;" />
+            <!-- </div>
+            <div class="pdf-changer"> -->
+            <input type="text" placeholder="请输入pdf路径" v-model="pdf_path" @keyup="keyup_submit"
+                style="width:90%;grid-row:2/3;grid-column: 1/2;" />
+            <button type="button" class="custom-button" @click="change_pdf" style="grid-row:2/3;grid-column: 2/3;">
+                确认切换
+            </button>
+            <!-- </div> -->
         </div>
         <hr>
 
@@ -425,28 +435,26 @@ export default {
         <div class="bbox-buttons">
 
 
-            <button type="button" class="custom-button" @click="bbox_on_change"
-                style="grid-column:1/2;grid-column: 1/3;">
+            <button type="button" class="custom-button" @click="bbox_on_change" style="grid-row:1/2;grid-column: 1/3;">
                 {{ bbox_on ? "点击隐藏Bounding Box" : "点击显示Bounding Box" }}
             </button>
 
             <button type="button" class="custom-button" @click="bbox_respond_to_change"
-                style="grid-column:2/3;grid-column: 1/3;">
+                style="grid-row:2/3;grid-column: 1/3;">
                 Refresh Bbox
             </button>
 
-            <button type="button" class="custom-button" @click="choose_all" style="grid-column:3/4;grid-column: 1/2;">
+            <button type="button" class="custom-button" @click="choose_all" style="grid-row:3/4;grid-column: 1/2;">
                 Choose All
             </button>
-            <button type="button" class="custom-button" @click="choose_none" style="grid-column:3/4;grid-column: 2/3;">
+            <button type="button" class="custom-button" @click="choose_none" style="grid-row:3/4;grid-column: 2/3;">
                 Choose None
             </button>
 
             <!-- <button type="button" class="custom-button" @click="post_chosen_font_size">
                 Generate Voice!
             </button> -->
-            <button type="button" class="custom-button" @click="reload_config"
-                style="grid-column:4/5;grid-column: 1/3;">
+            <button type="button" class="custom-button" @click="reload_config" style="grid-row:4/5;grid-column: 1/3;">
                 config.json Reload
             </button>
 
@@ -651,5 +659,26 @@ p {
 
 .bbox-buttons button {
     padding: 5px;
+}
+.background-image{
+    width: 100%;
+    background-image: url('../assets/image/logo.png');
+    background-size: 100% auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    position: relative;
+
+    background-position-x: center;
+}
+.line-1 {
+    width: 100%;
+    /* height: 285px; */
+    /* background-position-y: -20px; */
+    /* padding-top: 75%; */
+    /* background-position: center; */
+    /* box-sizing: border-box; */
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr ;
 }
 </style>

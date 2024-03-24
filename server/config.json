@@ -5,7 +5,7 @@
     "ref_wav_path": "C:\\Users\\Dusk_Hermit\\Desktop\\saileach\\raw\\信赖触摸.wav",
     "prompt_text": "您是不是累了？这是我烤的甜司康饼。您可以坐下来，喝点茶，与我说说您的烦心事。",
     "prompt_language_text": "中文",
-    "default_pdf_path": "C:/Users/Dusk_Hermit/Desktop/大三下学习资料/编译/实验/实验1/lab1-21307130050-张博远.pdf",
+    "default_pdf_path": "D:/创作/202403/pdf_voice_webui/1706.03762.pdf",
     "server_port": 51876,
     "client_port": 51877
 }

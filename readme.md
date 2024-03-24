@@ -1,3 +1,12 @@
+### 功能一览
+- 切换pdf路径，下次打开同一个pdf
+- 根据字体和字号筛选pdf内文本内容（视图1的列表内信息是：字体、字号、pdf内此字体字号的所有字符数，以字符数从大到小排序）
+- 在上述筛选的结果下，根据页号、该block内筛选后的最少文字数，进行进一步筛选
+- 一键推理，生成语音
+- 界面内语音自动连播
+  - *pdf的结构是：page-block-line-span-char*
+
+
 ### 使用方法
 
 #### 1
@@ -55,6 +64,8 @@ if (wav16k.shape[0] > 160000 or wav16k.shape[0] < 48000):
 *修改端口号，需修改`client/src/main.js`，以及用`write_config.py`修改`config.json`*
 
 
+### 演示视频
+...
 
 ### 致谢
 https://github.com/RVC-Boss/GPT-SoVITS

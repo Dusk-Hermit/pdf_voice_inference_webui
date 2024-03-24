@@ -154,8 +154,8 @@ def generate_handle():
     global_config.p = subprocess.Popen(
         [os.path.join(GPTSOVITS_BASE,'runtime','python'),'inference_api.py'],
         shell=True,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+        # stdout=subprocess.DEVNULL,
+        # stderr=subprocess.DEVNULL,
     )
     print(f"pid: {global_config.p.pid}")
 

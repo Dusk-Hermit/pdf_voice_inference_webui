@@ -4,12 +4,12 @@
         "sovits_weight": "D:\\git_download\\GPT-SoVITS-beta0217\\SoVITS_weights\\saileach_e8_s232.pth",
         "lines": [
             {
-                "ref_wav_path": "D:\\git_download\\GPT-SoVITS-beta0217\\pdf_inference_webui\\output\\lab1-21307130050-张博远\\temp_ref.wav",
+                "ref_wav_path": "D:\\git_download\\GPT-SoVITS-beta0217\\pdf_inference_webui\\output\\1706.03762\\temp_ref.wav",
                 "prompt_text": "您是不是累了?这是我烤的甜司康饼,\n您可以坐下来,\n喝点茶,\n与我说说您的烦心事",
                 "prompt_language_text": "中文",
-                "text": "之前对这个问题,\n自己想到了一些正则表达式的写法,\n实现为代码的时候,\n总是编译错误,\n要么能够编译规则却这个规则却在某些例子中,\n解析结果在某个顶层节",
+                "text": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture,\nthe Transformer,\nbased solely on attention mechanisms,\ndispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English- to-German translation task,\nimproving over the existing best results,\nincluding ensembles,\nby over 2 BLEU. On the WMT 2014 English-to-French translation task,\nour model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs,\na small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data.",
                 "text_language_text": "中英混合",
-                "output_file_path": "D:\\git_download\\GPT-SoVITS-beta0217\\pdf_inference_webui\\output\\lab1-21307130050-张博远\\voice_output\\page_0001_block_0016.wav"
+                "output_file_path": "D:\\git_download\\GPT-SoVITS-beta0217\\pdf_inference_webui\\output\\1706.03762\\voice_output\\page_0001_block_0011.wav"
             }
         ]
     }
