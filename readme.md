@@ -67,6 +67,11 @@ if (wav16k.shape[0] > 160000 or wav16k.shape[0] < 48000):
 ### 演示视频
 ...
 
+### 权重示例
+这是用琴柳中文语音训练了一会会的语音，可以直接下载进行推理使用
+链接：https://pan.baidu.com/s/1cvQ4MbyatudMpIK7JYeLCw?pwd=7bip 
+
+
 ### 致谢
 https://github.com/RVC-Boss/GPT-SoVITS
 
