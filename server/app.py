@@ -6,6 +6,10 @@ from voicecontrol import VoiceControl
 
 import subprocess, json, os
 
+with open('config.json','r',encoding='utf-8') as f:
+    config=json.load(f)
+GPTSOVITS_BASE=config['GPTSOVITS_BASE']
+
 # instantiate the app
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -148,7 +152,7 @@ def generate_handle():
 
     # 调用popen，设置为self.p
     global_config.p = subprocess.Popen(
-        ["batch.bat"],
+        [os.path.join(GPTSOVITS_BASE,'runtime','python'),'inference_api.py'],
         shell=True,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,

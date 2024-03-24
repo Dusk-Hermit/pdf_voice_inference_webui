@@ -5,7 +5,7 @@ import time
 
 def start_processes():
     # 开启第一个进程，执行 Flask 应用
-    flask_process = subprocess.Popen(['cd','server','&','activate', 'flask', '&', 'python', 'app.py'], shell=True)
+    flask_process = subprocess.Popen(['cd','server','&','activate', 'pdf_voice_webui', '&', 'python', 'app.py'], shell=True)
     print("Flask process PID:", flask_process.pid)
 
     # 开启第二个进程，执行 npm run dev
