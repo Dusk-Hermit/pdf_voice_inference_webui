@@ -21,7 +21,7 @@ export default {
             language_selected: '',
             raw_candidate_weights: {},
             languange_candidates: [],
-            relative_speed: 0.6,
+            relative_speed: 0.7,
 
             default_infer_language: '',
             default_gpt_weight: '',
@@ -460,6 +460,7 @@ p {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-auto-flow: row;
+    padding: 10px;
 }
 
 .flex-container {

@@ -73,6 +73,8 @@ def change_config():
 
     global_config.pdf_file_path = pdf_path
     global_config.write_default_pdf_path(pdf_path)
+    
+    global_config.pdf = PDFObject(pdf_path)
 
     return jsonify("success")
 

@@ -127,6 +127,7 @@ export default {
 
             let audio_div = document.createElement('audio');
             audio_div.controls = true
+            audio_div.classList.add('audio_elem')
 
             let sourceElement = document.createElement('source');
             sourceElement.src = this.BACKENDPATH+'/audio/'+audio_basename;
@@ -215,5 +216,9 @@ export default {
     justify-content: center;
     align-items: center;
     /* margin-top: 10px; */
+    padding: 10px
+}
+.audio_elem{
+    height: 250px;
 }
 </style>

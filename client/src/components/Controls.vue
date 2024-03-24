@@ -196,8 +196,8 @@ export default {
             if (this.pdf_path == '') return
 
             // 刷新其他组件的数据
-            this.$refs.VoiceControls.
-                this.$refs.AudioControls.clear_all()
+            // this.$refs.VoiceControls.refre
+            // this.$refs.AudioControls.clear_all()
 
             const path = this.BACKENDPATH + '/change_pdf'
             axios.post(path, {
@@ -367,8 +367,8 @@ export default {
             )
         },
         change_width() {
-            if (this.width_control<0.15)this.width_control=0.15
-            if (this.width_control>0.8)this.width_control=0.8
+            if (this.width_control < 0.15) this.width_control = 0.15
+            if (this.width_control > 0.8) this.width_control = 0.8
 
             const left_width = String(this.width_control * 100) + '%'
             const right_width = String((1 - this.width_control) * 100) + '%'
@@ -377,9 +377,9 @@ export default {
             left.style.width = left_width
             right.style.width = right_width
 
-            let absolute_width=window.parent.document.getElementById('left').offsetWidth-50
-            absolute_width=absolute_width>0?absolute_width:0
-            this.$refs.VoiceControls.shown_text_length=Math.floor(absolute_width/10)
+            let absolute_width = window.parent.document.getElementById('left').offsetWidth - 50
+            absolute_width = absolute_width > 0 ? absolute_width : 0
+            this.$refs.VoiceControls.shown_text_length = Math.floor(absolute_width / 10)
         }
     }
 
@@ -400,7 +400,8 @@ export default {
                     class="custom-input" />
             </div>
             <div class="pdf-changer">
-                <input type="text" placeholder="请输入pdf路径" v-model="pdf_path" onkeydown="keyup_submit" style="width: 60%;"/>
+                <input type="text" placeholder="请输入pdf路径" v-model="pdf_path" @keyup="keyup_submit"
+                    style="width: 60%;" />
                 <button type="button" class="custom-button" @click="change_pdf">
                     确认切换
                 </button>
@@ -424,11 +425,13 @@ export default {
         <div class="bbox-buttons">
 
 
-            <button type="button" class="custom-button" @click="bbox_on_change" style="grid-column:1/2;grid-column: 1/3;">
+            <button type="button" class="custom-button" @click="bbox_on_change"
+                style="grid-column:1/2;grid-column: 1/3;">
                 {{ bbox_on ? "点击隐藏Bounding Box" : "点击显示Bounding Box" }}
             </button>
 
-            <button type="button" class="custom-button" @click="bbox_respond_to_change" style="grid-column:2/3;grid-column: 1/3;">
+            <button type="button" class="custom-button" @click="bbox_respond_to_change"
+                style="grid-column:2/3;grid-column: 1/3;">
                 Refresh Bbox
             </button>
 
@@ -442,7 +445,8 @@ export default {
             <!-- <button type="button" class="custom-button" @click="post_chosen_font_size">
                 Generate Voice!
             </button> -->
-            <button type="button" class="custom-button" @click="reload_config" style="grid-column:4/5;grid-column: 1/3;">
+            <button type="button" class="custom-button" @click="reload_config"
+                style="grid-column:4/5;grid-column: 1/3;">
                 config.json Reload
             </button>
 
@@ -453,15 +457,16 @@ export default {
 
 
             <div class="counter-container">
-                <p>按照pdf中字体对应的文字数量，</p><p>选择前n种字体</p>
+                <p>按照pdf中字体对应的文字数量，</p>
+                <p>选择前n种字体</p>
                 <div class="input-group">
-                    
-                        <button class="btn" type="button" @click="counter_decrement">-</button>
 
-                        <input type="text" class="text-center custom-input" v-model="counter" readonly>
+                    <button class="btn" type="button" @click="counter_decrement">-</button>
 
-                        <button class="btn" type="button" @click="counter_increment">+</button>
-                    
+                    <input type="text" class="text-center custom-input" v-model="counter" readonly>
+
+                    <button class="btn" type="button" @click="counter_increment">+</button>
+
                 </div>
             </div>
 
@@ -497,7 +502,7 @@ export default {
 
 </template>
 
-<style scoped >
+<style scoped>
 .logo-img {
     text-align: center;
     margin-top: 10px;
@@ -570,6 +575,7 @@ export default {
     outline: none;
     transition: border-color 0.3s ease;
 }
+
 .controls-container input[type='number'] {
     width: 30%;
     padding: 5px;
@@ -580,23 +586,27 @@ export default {
     outline: none;
     transition: border-color 0.3s ease;
 }
-.input-group{
+
+.input-group {
     /* position: relative; */
     display: flex;
     /* align-items: center; */
     justify-content: center;
 }
-.counter-container{
+
+.counter-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
 }
-p{
+
+p {
     margin: 0;
     padding: 0;
 }
+
 /* .counter-container p{
     margin: 5px;
 } */
@@ -612,7 +622,8 @@ p{
 .custom-input:focus {
     border-color: #91cfd1;
 }
-.custom-button{
+
+.custom-button {
     padding: 5px;
     margin: 3px;
     font-size: 12px;
@@ -622,19 +633,23 @@ p{
     transition: border-color 0.3s ease;
 
 }
-.controls-container li{
+
+.controls-container li {
     list-style-type: none;
 }
-.controls-container{
+
+.controls-container {
     font-size: small;
-    font-family: PingFang SC,HarmonyOS_Regular,Helvetica Neue,Microsoft YaHei,sans-serif;
+    font-family: PingFang SC, HarmonyOS_Regular, Helvetica Neue, Microsoft YaHei, sans-serif;
 }
-.bbox-buttons{
+
+.bbox-buttons {
     display: grid;
-    grid-template-columns: (2,1fr);
-    grid-template-rows: (4,1fr);
+    grid-template-columns: (2, 1fr);
+    grid-template-rows: (4, 1fr);
 }
-.bbox-buttons button{
+
+.bbox-buttons button {
     padding: 5px;
 }
 </style>
