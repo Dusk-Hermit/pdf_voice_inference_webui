@@ -51,7 +51,8 @@ if (wav16k.shape[0] > 160000 or wav16k.shape[0] < 48000):
 2. 从最后看，找到`with gr.Blocks(title="GPT-SoVITS WebUI") as app:`这一行，把这一行及以下所有代码删掉。*不同版本的GPT_SoVITS项目的该文件代码会有些许差别，因此请用自己下载的版本的该文件，并进行修改*
 
 #### 6
-双击`run.bat`即可打开webui
+双击`run.bat`即启动，然后再浏览器中输入`http://localhost:51877`打开webui页面
+*修改端口号，需修改`client/src/main.js`，以及用`write_config.py`修改`config.json`*
 
 
 
