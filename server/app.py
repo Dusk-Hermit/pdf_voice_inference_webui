@@ -11,10 +11,6 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 
-# enable CORS
-CORS(app, resources={r"/*": {"origins": "http://localhost:5002"}})
-
-
 class GlobalConfig:
     def __init__(self):
         self.pdf_file_path = self.get_default_pdf_path()
@@ -29,12 +25,18 @@ class GlobalConfig:
 
         self.should_interrupt = False
         self.inferencing = False
+        
+        self.server_port,self.client_port = self.get_port()
 
         self.p = None
     def get_default_pdf_path(self):
         with open(os.path.join(os.path.dirname(__file__), "config.json"), "r", encoding="utf-8") as f:
             config = json.load(f)
         return config["default_pdf_path"]
+    def get_port(self):
+        with open(os.path.join(os.path.dirname(__file__), "config.json"), "r", encoding="utf-8") as f:
+            config = json.load(f)
+        return config["server_port"],config['client_port']
     def write_default_pdf_path(self,pdf_path):
         with open(os.path.join(os.path.dirname(__file__), "config.json"), "r", encoding="utf-8") as f:
             config = json.load(f)
@@ -43,6 +45,10 @@ class GlobalConfig:
             f.write(json.dumps(config, ensure_ascii=False, indent=4))
 
 global_config = GlobalConfig()
+
+# enable CORS
+CORS(app, resources={r"/*": {"origins": f"http://localhost:{global_config.client_port}"}})
+
 
 
 @app.route("/pdf", methods=["GET"])
@@ -337,5 +343,4 @@ def serve_audio(filename):
 
     
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
-    # socketio.run(app, debug=True, port=5001)
+    app.run(debug=True, port=global_config.server_port)

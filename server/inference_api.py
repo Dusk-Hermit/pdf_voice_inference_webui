@@ -3,6 +3,7 @@ config_path=os.path.join(os.path.dirname(__file__),'config.json')
 with open(config_path,'r',encoding='utf-8') as f:
     config=json.load(f)
 GPTSOVITS_BASE=config['GPTSOVITS_BASE']
+server_port=config['server_port']
 
 sys.path.append(GPTSOVITS_BASE)
 os.chdir(GPTSOVITS_BASE)
@@ -51,7 +52,7 @@ if __name__=='__main__':
     with open(os.path.join(os.path.dirname(__file__),'data.json'),'r',encoding='utf-8') as f:
         obj=json.load(f)
     
-    signal_url='http://localhost:5001/finished_one_inference'
+    signal_url=f'http://localhost:{server_port}/finished_one_inference'
     
     for index1, item in enumerate(obj):
         change_weight(item['gpt_weight'],item['sovits_weight'])

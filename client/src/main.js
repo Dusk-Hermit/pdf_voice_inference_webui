@@ -7,7 +7,7 @@ import "./assets/css/global.css"
 
 const app = createApp(App)
 
-const backend_path = "http://localhost:5001"
+const backend_path = "http://localhost:51876"
 app.config.globalProperties.BACKENDPATH = backend_path
 
 app.use(router)

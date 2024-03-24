@@ -19,7 +19,7 @@ export default {
             // bbox_inited: false,
             virtual_div: document.createElement('div'),
 
-            nav_num: 1, 
+            nav_num: 1,
             width_control: 0.3,
         }
     },
@@ -66,7 +66,7 @@ export default {
 
         // Get page contents and basic data
         get_size_and_font() {
-            const path = this.BACKENDPATH+'/get_size_and_font'
+            const path = this.BACKENDPATH + '/get_size_and_font'
 
             return new Promise((resolve, reject) =>
                 axios.get(path).then(
@@ -110,7 +110,7 @@ export default {
             )
         },
         get_bboxes() {
-            const path = this.BACKENDPATH+"/get_bboxes"
+            const path = this.BACKENDPATH + "/get_bboxes"
             return new Promise((resolve, reject) =>
                 axios.get(path).then(
                     (res) => {
@@ -132,7 +132,7 @@ export default {
 
         // Post methods
         post_chosen_font_size() {
-            const path = this.BACKENDPATH+"/post_font_size"
+            const path = this.BACKENDPATH + "/post_font_size"
             const post_obj = this.size_font_data.filter((item) => item.chosen).map(item => { return { 'size': item.size, 'font': item.font, } })
             axios.post(path, post_obj)
                 .then(
@@ -197,9 +197,9 @@ export default {
 
             // 刷新其他组件的数据
             this.$refs.VoiceControls.
-            this.$refs.AudioControls.clear_all()
+                this.$refs.AudioControls.clear_all()
 
-            const path = this.BACKENDPATH+'/change_pdf'
+            const path = this.BACKENDPATH + '/change_pdf'
             axios.post(path, {
                 'path': this.pdf_path,
             }).then(
@@ -324,31 +324,40 @@ export default {
             this.bbox_respond_to_change()
         },
         nav_bar_change(num) {
-            if (this.nav_num==num) return
-            this.nav_num=num
-            
+            if (this.nav_num == num) return
+            this.nav_num = num
+
             this.nav_bar_visibility_rerender(num)
-            if (this.nav_num==2) {
+            if (this.nav_num == 2) {
                 this.post_chosen_font_size()
                 this.$refs.VoiceControls.get_filtered_text()
                 this.$refs.VoiceControls.page_select()
+                this.change_width()
             }
         },
         nav_bar_visibility_rerender(num) {
+            // nav button rerender
+            const nav_header = window.parent.document.getElementById('nav-header')
+            for (let i = 0; i < nav_header.children.length; i++) {
+                if (i == num - 1) nav_header.children[i].classList.add('nav-button-active')
+                else nav_header.children[i].classList.remove('nav-button-active')
+            }
+
+
             // nav_num=true : bbox selecting bar
             const nav_1 = window.parent.document.getElementById('nav-1')
             const nav_2 = window.parent.document.getElementById('nav-2')
             const nav_3 = window.parent.document.getElementById('nav-3')
-            let nav_list=[nav_1,nav_2,nav_3]
-            for (let i=1;i<=nav_list.length;i++){
+            let nav_list = [nav_1, nav_2, nav_3]
+            for (let i = 1; i <= nav_list.length; i++) {
                 // if (nav_list[i]==undefined) console.log('nav_list[',i,'] is undefined')
 
-                if (i==num) nav_list[i-1].classList.remove('invisible')
-                else nav_list[i-1].classList.add('invisible')
+                if (i == num) nav_list[i - 1].classList.remove('invisible')
+                else nav_list[i - 1].classList.add('invisible')
             }
         },
         reload_config() {
-            const path = this.BACKENDPATH+'/reload_config'
+            const path = this.BACKENDPATH + '/reload_config'
             axios.post(path, {}).then(
                 (res) => {
                     console.log(res)
@@ -358,12 +367,19 @@ export default {
             )
         },
         change_width() {
-            const left_width=String(this.width_control * 100) + '%'
-            const right_width=String((1-this.width_control) * 100) + '%'
+            if (this.width_control<0.15)this.width_control=0.15
+            if (this.width_control>0.8)this.width_control=0.8
+
+            const left_width = String(this.width_control * 100) + '%'
+            const right_width = String((1 - this.width_control) * 100) + '%'
             const left = window.parent.document.getElementById('left')
             const right = window.parent.document.getElementById('right')
-            left.style.width=left_width
-            right.style.width=right_width
+            left.style.width = left_width
+            right.style.width = right_width
+
+            let absolute_width=window.parent.document.getElementById('left').offsetWidth-50
+            absolute_width=absolute_width>0?absolute_width:0
+            this.$refs.VoiceControls.shown_text_length=Math.floor(absolute_width/10)
         }
     }
 
@@ -374,86 +390,102 @@ export default {
 
 <template>
     <div class="controls-container">
-        <div class="pdf-changer">
-            <input type="text" placeholder="请输入pdf路径" v-model="pdf_path" onkeydown="keyup_submit" />
-            <button type="button" class="btn btn-sm" @click="change_pdf">
-                确认切换
+        <div class="line-1">
+            <div class="logo">
+                <img src="../assets/image/logo.png" alt="logo" class="logo-img" />
+            </div>
+            <div class="width-control">
+                <p class="input-description">左侧栏宽度比例：</p>
+                <input type="number" step="0.05" max="0.8" min="0.15" v-model="width_control" @input="change_width"
+                    class="custom-input" />
+            </div>
+            <div class="pdf-changer">
+                <input type="text" placeholder="请输入pdf路径" v-model="pdf_path" onkeydown="keyup_submit" style="width: 60%;"/>
+                <button type="button" class="custom-button" @click="change_pdf">
+                    确认切换
+                </button>
+            </div>
+        </div>
+        <hr>
+
+        <div class="nav-header" id="nav-header">
+            <button type="button" class="btn btn-sm nav-button-active" @click="() => nav_bar_change(1)">
+                视图 1
+            </button>
+            <button type="button" class="btn btn-sm" @click="() => nav_bar_change(2)">
+                视图 2
+            </button>
+            <button type="button" class="btn btn-sm" @click="() => nav_bar_change(3)">
+                视图 3
             </button>
         </div>
-        <div class="nav-header">
-            <button type="button" class="btn btn-sm" @click="()=>nav_bar_change(1)">
-                视图1
-            </button>
-            <button type="button" class="btn btn-sm" @click="()=>nav_bar_change(2)">
-                视图2
-            </button>
-            <button type="button" class="btn btn-sm" @click="()=>nav_bar_change(3)">
-                视图3
-            </button>
-        </div>
+        <hr>
 
         <div class="bbox-buttons">
 
 
-            <button type="button" class="btn btn-sm" @click="bbox_on_change">
+            <button type="button" class="custom-button" @click="bbox_on_change" style="grid-column:1/2;grid-column: 1/3;">
                 {{ bbox_on ? "点击隐藏Bounding Box" : "点击显示Bounding Box" }}
             </button>
 
-            <button type="button" class="btn btn-sm" @click="bbox_respond_to_change">
+            <button type="button" class="custom-button" @click="bbox_respond_to_change" style="grid-column:2/3;grid-column: 1/3;">
                 Refresh Bbox
             </button>
 
-            <button type="button" class="btn btn-sm" @click="choose_all">
+            <button type="button" class="custom-button" @click="choose_all" style="grid-column:3/4;grid-column: 1/2;">
                 Choose All
             </button>
-            <button type="button" class="btn btn-sm" @click="choose_none">
+            <button type="button" class="custom-button" @click="choose_none" style="grid-column:3/4;grid-column: 2/3;">
                 Choose None
             </button>
 
-            <!-- <button type="button" class="btn btn-sm" @click="post_chosen_font_size">
+            <!-- <button type="button" class="custom-button" @click="post_chosen_font_size">
                 Generate Voice!
             </button> -->
-            <button type="button" class="btn btn-sm" @click="reload_config">
+            <button type="button" class="custom-button" @click="reload_config" style="grid-column:4/5;grid-column: 1/3;">
                 config.json Reload
             </button>
-            <div class="width-control">
-                <input type="number" step="0.05" max="0.8" min="0.1" v-model="width_control" @input="change_width"/>
-            </div>
+
         </div>
+        <hr>
 
         <div class="nav-1" id="nav-1">
 
 
             <div class="counter-container">
-                <h2 class="mt-3">Counter</h2>
-                <div class="input-group mb-3" style="max-width: 200px;">
-                    <div class="input-group-prepend">
-                        <button class="btn btn-outline-secondary" type="button" @click="counter_decrement">-</button>
-                    </div>
-                    <input type="text" class="form-control text-center" v-model="counter" readonly>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" @click="counter_increment">+</button>
-                    </div>
+                <p>按照pdf中字体对应的文字数量，</p><p>选择前n种字体</p>
+                <div class="input-group">
+                    
+                        <button class="btn" type="button" @click="counter_decrement">-</button>
+
+                        <input type="text" class="text-center custom-input" v-model="counter" readonly>
+
+                        <button class="btn" type="button" @click="counter_increment">+</button>
+                    
                 </div>
             </div>
 
+
             <!-- <div>{{ size_and_font }}</div> -->
             <hr>
-            <ul class="list-group" id="choose_list">
-                <li class="list-group-item" v-for="(elem, key) in size_and_font" :key="key">
-                    {{ elem.font }}
-                    <ul>
-                        <li v-for="(size_elem, index) in elem.size" :key="index">
-                            <label>
-                                <input type="checkbox" :id="elem.font + '_' + size_elem"
-                                    @click="update_data_by_checkbox_click(elem.font, size_elem)"></input>
-                                {{ size_elem }}(chars:
-                                {{ query_func(size_font_data, elem.font, size_elem, 'string_length') }})
-                            </label>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+            <div class="list-container">
+                <ul class="list-group" id="choose_list">
+                    <li class="list-group-item" v-for="(elem, key) in size_and_font" :key="key">
+                        {{ elem.font }}
+                        <ul>
+                            <li v-for="(size_elem, index) in elem.size" :key="index">
+                                <label>
+                                    <input type="checkbox" :id="elem.font + '_' + size_elem"
+                                        @click="update_data_by_checkbox_click(elem.font, size_elem)"></input>
+                                    {{ size_elem }}(chars:
+                                    {{ query_func(size_font_data, elem.font, size_elem, 'string_length') }})
+                                </label>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
         </div>
         <div class="nav-2 invisible" id="nav-2">
             <VoiceControls ref="VoiceControls" />
@@ -465,7 +497,13 @@ export default {
 
 </template>
 
-<style scoped>
+<style scoped >
+.logo-img {
+    text-align: center;
+    margin-top: 10px;
+    width: 100px;
+}
+
 .controls-container {
     width: 100%;
     height: 100%;
@@ -478,7 +516,125 @@ export default {
 .invisible {
     display: none;
 }
-/* .list-group{
-    max-height: 500px;
+
+.nav-1 {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.nav-header {
+    background-color: #f5f5f5;
+    padding: 5px;
+    box-shadow: 5px 5px 5px #00000033;
+    display: flex;
+}
+
+.nav-header button {
+    position: relative;
+    flex: 1;
+    margin: 2px;
+    font: 500 20px '优设标题黑';
+}
+
+.nav-header button:hover {
+    color: #00000062;
+}
+
+.nav-button-active {
+    background-color: rgb(196, 214, 214);
+}
+
+.list-container {
+    height: 100%;
+    /* overflow-y: auto; */
+}
+
+.width-control {
+    display: flex;
+    align-items: center;
+}
+
+.pdf-changer {
+    display: flex;
+    align-items: center;
+
+}
+
+.controls-container input[type='text'] {
+    width: 45%;
+    padding: 5px;
+    margin: 5px;
+    font-size: 12px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+.controls-container input[type='number'] {
+    width: 30%;
+    padding: 5px;
+    margin: 5px;
+    font-size: 12px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+.input-group{
+    /* position: relative; */
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+}
+.counter-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+p{
+    margin: 0;
+    padding: 0;
+}
+/* .counter-container p{
+    margin: 5px;
 } */
+.input-description {
+    width: 50%;
+    padding: 5px;
+    margin: 5px;
+    font-size: 12px;
+    /* border: 2px solid #ccc;
+  border-radius: 5px; */
+}
+
+.custom-input:focus {
+    border-color: #91cfd1;
+}
+.custom-button{
+    padding: 5px;
+    margin: 3px;
+    font-size: 12px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+
+}
+.controls-container li{
+    list-style-type: none;
+}
+.controls-container{
+    font-size: small;
+    font-family: PingFang SC,HarmonyOS_Regular,Helvetica Neue,Microsoft YaHei,sans-serif;
+}
+.bbox-buttons{
+    display: grid;
+    grid-template-columns: (2,1fr);
+    grid-template-rows: (4,1fr);
+}
+.bbox-buttons button{
+    padding: 5px;
+}
 </style>

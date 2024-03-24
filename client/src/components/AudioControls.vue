@@ -173,7 +173,7 @@ export default {
 
 <template>
     <div class="button-container">
-        <button class="btn btn-sm" @click="audio_load_main_loop">开始追踪task进度，持续加载已生成音频</button>
+        <button class="custom-button" @click="audio_load_main_loop">开始追踪task进度，持续加载已生成音频</button>
 
     </div>
 
@@ -191,5 +191,29 @@ export default {
 <style scoped>
 .current_task {
     background-color: beige;
+}
+
+.custom-button{
+    padding: 5px;
+    margin: 3px;
+    font-size: 12px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+
+}
+.button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+.audio-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: 10px; */
 }
 </style>

@@ -21,11 +21,11 @@ export default {
             language_selected: '',
             raw_candidate_weights: {},
             languange_candidates: [],
-            relative_speed: 1,
+            relative_speed: 0.6,
 
-            default_infer_language:'',
-            default_gpt_weight:'',
-            default_sovits_weight:'',
+            default_infer_language: '',
+            default_gpt_weight: '',
+            default_sovits_weight: '',
         }
     },
     mounted() {
@@ -79,7 +79,7 @@ export default {
 
         get_filtered_text() {
             // render the list items
-            const path = this.BACKENDPATH+'/get_filtered_text';
+            const path = this.BACKENDPATH + '/get_filtered_text';
             axios.get(path)
                 .then((response) => {
                     this.page_max_no = response.data['page_max_no']
@@ -120,7 +120,7 @@ export default {
                 });
         },
         get_candidate_weights() {
-            const path = this.BACKENDPATH+'/candidate_weights';
+            const path = this.BACKENDPATH + '/candidate_weights';
             axios.get(path)
                 .then(
                     (response) => {
@@ -234,7 +234,7 @@ export default {
         },
         generate_post() {
 
-            const path = this.BACKENDPATH+'/generate_post';
+            const path = this.BACKENDPATH + '/generate_post';
             let obj = {
                 'minlength': this.text_minlength_filter,
                 'page_selected': this.page_select_list,
@@ -258,7 +258,7 @@ export default {
             this.page_select()
         },
         interrupt_this_inference() {
-            const path = this.BACKENDPATH+'/set_interrupt';
+            const path = this.BACKENDPATH + '/set_interrupt';
             axios.get(path)
                 .then(
                     (response) => {
@@ -270,7 +270,7 @@ export default {
                 )
         },
         clear_voice_output() {
-            const path = this.BACKENDPATH+'/clear_voice_output';
+            const path = this.BACKENDPATH + '/clear_voice_output';
             axios.get(path)
                 .then(
                     (response) => {
@@ -310,71 +310,80 @@ export default {
 <template>
 
     <div class="voice-controls" id="voice-controls">
-        <button type="button" class="btn btn-sm" @click="refresh_controls">
-            Refresh
-        </button>
+        <div>
 
-        <input type="text" placeholder="输入页号 eg: -1,2-3,4,5-" v-model="page_select_input_string" @input="page_select"
-            @focus="refresh_block_class" />
-        <!-- <button @click="get_filtered_text">get filtered text</button> -->
-        <p>
-            <!-- {{ raw_filtered_text }} -->
-        </p>
+            <button type="button" class="custom-button" @click="refresh_controls" style="width: 40%;">
+                刷新筛选结果
+            </button>
+
+            <input type="text" placeholder="输入页号 eg: -1,2-3,4,5-" v-model="page_select_input_string"
+                @input="page_select" @focus="refresh_block_class" style="width: 50%;" />
+        </div>
+
 
         <div id="voice-minlength-container">
-            <!-- <p>Min length filter</p>
-            <input type="text" placeholder="输入整数" v-model="text_minlength_filter_text" @input="minlength_input_func" /> -->
-            <input type="number" placeholder="输入整数" v-model="text_minlength_filter" @input="minlength_input_func">
+            <div>
+
+                <p>筛选每个block内的文本需不少于</p>
+            </div>
+            <input type="number" placeholder="输入整数" v-model="text_minlength_filter" @input="minlength_input_func"
+                style="width: 60px;">
+            <div>
+
+                <p>个字</p>
+            </div>
         </div>
-        <button type="button" class="btn btn-sm" @click="generate_post">
-            Generate
-        </button>
-        <button type="button" class="btn btn-sm" @click="interrupt_this_inference">
-            Interrupt
-        </button>
-        <button type="button" class="btn btn-sm" @click="clear_voice_output">
-            Clear Voice Output
-        </button>
+        <div class="bbox-buttons">
 
+            <button type="button" class="custom-button" @click="generate_post"
+                style="grid-column:1/2;grid-column: 1/2;">
+                Generate
+            </button>
+            <button type="button" class="custom-button" @click="interrupt_this_inference"
+                style="grid-column:1/2;grid-column: 2/3;">
+                Interrupt
+            </button>
+            <button type="button" class="custom-button" @click="clear_voice_output"
+                style="grid-column:1/2;grid-column: 3/4;">
+                Clear Voice Output
+            </button>
+        </div>
+        <hr>
         <div id="select-box">
-            <div id="gpt_weight-container">
-                <p>
-                    gpt-weight select
-                </p>
-                <select name="gpt-weight" id="gpt-weight" v-model="gpt_selected">
-                    <option value="" selected>Default---{{ path_basename(default_gpt_weight) }}</option>
-                    <option :value="item" v-for="(item, index) in raw_candidate_weights['gpt_weights']">
-                        {{ path_basename(item) }}</option>
-                </select>
-            </div>
-            <div id="sovits_weight-container">
-                <p>
-                    sovits-weight select
-                </p>
-                <select name="sovits-weight" id="sovits-weight" v-model="sovits_selected">
-                    <option value="" selected>Default---{{ path_basename(default_sovits_weight) }}</option>
-                    <option :value="item" v-for="(item, index) in raw_candidate_weights['sovits_weights']">{{
-            path_basename(item) }}</option>
-                </select>
-            </div>
-            <div id="language-container">
-                <p>
-                    language used to infer
-                </p>
-                <select name="language-select" id="language-select" v-model="language_selected">
-                    <option value="" selected>Default--- {{ path_basename(default_infer_language) }}</option>
-                    <option :value="item" v-for="(item, index) in languange_candidates">{{ item }}</option>
-                </select>
-            </div>
 
-            <div id="speed-container">
-                <p>
-                    relative speed
-                </p>
-                <!-- <button type="button" @click="()=>{relative_speed-=0.1;relative_speed=Number(relative_speed).toFixed(2)}"><</button> -->
-                <input type="number" v-model="relative_speed" step="0.1" />
-                <!-- <button type="button" @click="()=>{relative_speed+=0.1;relative_speed=Number(relative_speed).toFixed(2)}">></button> -->
+            <div>
+                gpt-weight select
             </div>
+            <select name="gpt-weight" id="gpt-weight" v-model="gpt_selected">
+                <option value="" selected>Default---{{ path_basename(default_gpt_weight) }}</option>
+                <option :value="item" v-for="(item, index) in raw_candidate_weights['gpt_weights']">
+                    {{ path_basename(item) }}</option>
+            </select>
+
+            <div>
+                sovits-weight select
+            </div>
+            <select name="sovits-weight" id="sovits-weight" v-model="sovits_selected">
+                <option value="" selected>Default---{{ path_basename(default_sovits_weight) }}</option>
+                <option :value="item" v-for="(item, index) in raw_candidate_weights['sovits_weights']">{{
+                path_basename(item) }}</option>
+            </select>
+
+            <div>
+                language used to infer
+            </div>
+            <select name="language-select" id="language-select" v-model="language_selected">
+                <option value="" selected>Default--- {{ path_basename(default_infer_language) }}</option>
+                <option :value="item" v-for="(item, index) in languange_candidates">{{ item }}</option>
+            </select>
+
+            <div>
+                relative speed
+            </div>
+            <!-- <button type="button" @click="()=>{relative_speed-=0.1;relative_speed=Number(relative_speed).toFixed(2)}"><</button> -->
+            <input type="number" v-model="relative_speed" step="0.1" />
+            <!-- <button type="button" @click="()=>{relative_speed+=0.1;relative_speed=Number(relative_speed).toFixed(2)}">></button> -->
+
         </div>
 
 
@@ -385,14 +394,14 @@ export default {
                 <li v-for="page in filtered_text" :key="page.page_no" :id="generate_page_id(page.page_no)"
                     class="page_elem">
                     <p>
-                        {{ page.page_no }}
+                        Page: {{ page.page_no }}
                     </p>
                     <ul>
                         <li v-for="block in page.blocks" :key="block.block_num"
                             :id="generate_block_id(page.page_no, block.block_num)" class="block_elem">
                             <p>
-                                {{ block.block_num }}: {{ block.text.length < shown_text_length ? block.text :
-            block.text.slice(0, shown_text_length) + '...' }} </p>
+                                Block: {{ block.block_num }}: {{ block.text.length < shown_text_length ? block.text :
+                block.text.slice(0, shown_text_length) + '...' }} </p>
                         </li>
                     </ul>
                 </li>
@@ -411,5 +420,62 @@ export default {
 
 .invisible {
     display: none;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 3px;
+    padding-left: 10px;
+    list-style-type: none;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+#voice-minlength-container {
+    display: flex;
+    align-items: center;
+    /* 垂直居中对齐 */
+    justify-content: center;
+}
+
+.bbox-buttons {
+    display: grid;
+    grid-template-columns: (3, 1fr);
+    grid-template-rows: (1, 1fr);
+}
+
+.bbox-buttons button {
+    padding: 5px;
+}
+
+#select-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-auto-flow: row;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center;
+    /* 垂直居中 */
+}
+
+.custom-button {
+    padding: 5px;
+    margin: 3px;
+    font-size: 12px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+
 }
 </style>

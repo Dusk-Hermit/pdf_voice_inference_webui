@@ -13,6 +13,9 @@ config_list = {
     # "default_infer_language":"中英混合",
     
     'default_pdf_path':r"D:\git_download\read-aloud\1706.03762.pdf",
+    
+    'server_port':51876,
+    'client_port':51877,
 }
 
 with open(
