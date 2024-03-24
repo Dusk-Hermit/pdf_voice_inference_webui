@@ -79,7 +79,7 @@ export default {
 
         get_filtered_text() {
             // render the list items
-            const path = 'http://localhost:5001/get_filtered_text';
+            const path = this.BACKENDPATH+'/get_filtered_text';
             axios.get(path)
                 .then((response) => {
                     this.page_max_no = response.data['page_max_no']
@@ -120,7 +120,7 @@ export default {
                 });
         },
         get_candidate_weights() {
-            const path = 'http://localhost:5001/candidate_weights';
+            const path = this.BACKENDPATH+'/candidate_weights';
             axios.get(path)
                 .then(
                     (response) => {
@@ -234,7 +234,7 @@ export default {
         },
         generate_post() {
 
-            const path = 'http://localhost:5001/generate_post';
+            const path = this.BACKENDPATH+'/generate_post';
             let obj = {
                 'minlength': this.text_minlength_filter,
                 'page_selected': this.page_select_list,
@@ -258,7 +258,7 @@ export default {
             this.page_select()
         },
         interrupt_this_inference() {
-            const path = 'http://localhost:5001/set_interrupt';
+            const path = this.BACKENDPATH+'/set_interrupt';
             axios.get(path)
                 .then(
                     (response) => {
@@ -270,7 +270,7 @@ export default {
                 )
         },
         clear_voice_output() {
-            const path = 'http://localhost:5001/clear_voice_output';
+            const path = this.BACKENDPATH+'/clear_voice_output';
             axios.get(path)
                 .then(
                     (response) => {
@@ -280,7 +280,7 @@ export default {
                 .catch(
                     (err) => console.log(err)
                 )
-        }
+        },
     }
 
 }

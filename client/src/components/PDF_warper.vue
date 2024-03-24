@@ -14,11 +14,11 @@ export default {
 
 <template>
     <div class="pdf-container">
-        <div class="left">
+        <div class="left" id="left">
             <Controls />
         </div>
-        <div class="right">
-            <PDFViewer id="pdfviewer" :url="'http://localhost:5001/pdf'" />
+        <div class="right" id="right">
+            <PDFViewer id="pdfviewer" :url="this.BACKENDPATH+'/pdf'" />
         </div>
     </div>
 </template>
@@ -27,6 +27,8 @@ export default {
 .pdf-container {
     width: 100%;
     height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .left {
@@ -37,6 +39,8 @@ export default {
     left: 0;
     /* background-color: #f0f0f0; */
     /* z-index: 100; */
+    overflow-y: auto;
+
 }
 
 .right {

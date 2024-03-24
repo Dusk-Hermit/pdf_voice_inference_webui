@@ -10,13 +10,14 @@ import subprocess, json, os
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+
 # enable CORS
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "http://localhost:5002"}})
 
 
 class GlobalConfig:
     def __init__(self):
-        self.pdf_file_path = r"D:\git_download\read-aloud\1706.03762.pdf"
+        self.pdf_file_path = self.get_default_pdf_path()
         self.pdf = PDFObject(self.pdf_file_path)
 
         self.size_font_filter = []
@@ -29,9 +30,17 @@ class GlobalConfig:
         self.should_interrupt = False
         self.inferencing = False
 
-        self.voice_queue = []
         self.p = None
-
+    def get_default_pdf_path(self):
+        with open(os.path.join(os.path.dirname(__file__), "config.json"), "r", encoding="utf-8") as f:
+            config = json.load(f)
+        return config["default_pdf_path"]
+    def write_default_pdf_path(self,pdf_path):
+        with open(os.path.join(os.path.dirname(__file__), "config.json"), "r", encoding="utf-8") as f:
+            config = json.load(f)
+        config["default_pdf_path"]=pdf_path
+        with open(os.path.join(os.path.dirname(__file__), "config.json"), "w", encoding="utf-8") as f:
+            f.write(json.dumps(config, ensure_ascii=False, indent=4))
 
 global_config = GlobalConfig()
 
@@ -57,6 +66,7 @@ def change_config():
     pdf_path = pdf_path.replace("\\", "/")
 
     global_config.pdf_file_path = pdf_path
+    global_config.write_default_pdf_path(pdf_path)
 
     return jsonify("success")
 
@@ -253,13 +263,10 @@ def finished_one_inference():
     this_output = post_data["output_file_path"]
     if_end = post_data["if_end"]
 
-
-    global_config.voice_queue.append(this_output)
-
     return_obj = {
         "should_interrupt": global_config.should_interrupt,
     }
-    global_config.inferencing = (not if_end) or global_config.should_interrupt
+    global_config.inferencing = not (if_end  or global_config.should_interrupt)
     if not global_config.inferencing:
         if global_config.should_interrupt:
             print("--------------Interrupting--------------")
@@ -278,11 +285,57 @@ def reload_config():
 
 @app.route("/clear_voice_output", methods=["POST",'GET'])
 def clear_voice_output():
+
     pdf_name = get_this_pdf_name()
     voice_output_dir = os.path.join(global_config.voicecontrol.output_base, pdf_name, 'voice_output')
     for f in os.listdir(voice_output_dir):
         os.remove(os.path.join(voice_output_dir, f))
     return jsonify("voice output cleared")
 
+# @socketio.on('connect')
+# def connect():
+#     # print('connected with client')
+#     emit('connect', {
+#         'message': 'Connected to server',
+#     })
+
+@app.route("/task_list", methods=['GET'])
+def task_list():
+    this_output_path=os.path.join(global_config.voicecontrol.output_base,get_this_pdf_name(),'voice_output')
+    audio_already_exist=[os.path.join(this_output_path,f) for f in os.listdir(this_output_path)]
+    if os.path.exists('data.json'):
+        with open('data.json','r',encoding='utf-8') as f:
+            obj=json.load(f)
+            task_outputs=[k['output_file_path'] for task_item in obj for k in task_item['lines']]
+        
+        return jsonify({
+            'task_outputs':task_outputs,
+            'audio_already_exist':audio_already_exist,
+            "inferencing":global_config.inferencing,
+            'no_task':False,
+        })
+    else:
+        return jsonify({
+            'audio_already_exist':audio_already_exist,
+            "inferencing":global_config.inferencing,
+            'no_task':True,
+        })
+    
+
+@app.route('/audio/<path:filename>')
+def serve_audio(filename):
+    # 返回 WAV 音频文件
+    absolute_file_path= os.path.join(
+        global_config.voicecontrol.output_base,
+        get_this_pdf_name(),
+        'voice_output',
+        filename
+    )
+    
+    return send_file(absolute_file_path, mimetype='audio/wav')
+
+
+    
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
+    # socketio.run(app, debug=True, port=5001)

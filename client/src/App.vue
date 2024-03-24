@@ -15,7 +15,9 @@ import { RouterView } from 'vue-router'
   height: 100%;
   top: 0;
   left: 0;
-  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
   background-color: #fff;
 }
 

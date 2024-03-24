@@ -11,6 +11,8 @@ config_list = {
     "prompt_language_text":"中文",
     
     # "default_infer_language":"中英混合",
+    
+    'default_pdf_path':r"D:\git_download\read-aloud\1706.03762.pdf",
 }
 
 with open(

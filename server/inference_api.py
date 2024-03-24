@@ -71,6 +71,6 @@ if __name__=='__main__':
                 'if_end':index1==len(obj)-1 and index2==len(item['lines'])-1,
             })
             json_data=res.json()
-            if json_data['if_end']:
+            if json_data['should_interrupt']:
                 exit(0)
     exit(0)

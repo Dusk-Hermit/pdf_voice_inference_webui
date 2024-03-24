@@ -1,5 +1,6 @@
 <script>
 import VoiceControls from './VoiceControls.vue'
+import AudioControls from './AudioControls.vue'
 import axios from 'axios';
 export default {
     data() {
@@ -18,11 +19,13 @@ export default {
             // bbox_inited: false,
             virtual_div: document.createElement('div'),
 
-            nav_bool: true, // true: bbox selecting bar
+            nav_num: 1, 
+            width_control: 0.3,
         }
     },
     components: {
-        VoiceControls
+        VoiceControls,
+        AudioControls,
     },
 
     mounted() {
@@ -36,8 +39,8 @@ export default {
             () => {
                 this.update_data_by_counter()
                 this.refresh_checkbox_by_data()
-                this.refresh_bbox_showing_by_data()
-                this.nav_bar_visibility_rerender()
+                this.bbox_respond_to_change()
+                this.nav_bar_change(this.nav_num)
             }
         )
 
@@ -63,7 +66,7 @@ export default {
 
         // Get page contents and basic data
         get_size_and_font() {
-            const path = 'http://localhost:5001/get_size_and_font'
+            const path = this.BACKENDPATH+'/get_size_and_font'
 
             return new Promise((resolve, reject) =>
                 axios.get(path).then(
@@ -107,7 +110,7 @@ export default {
             )
         },
         get_bboxes() {
-            const path = "http://localhost:5001/get_bboxes"
+            const path = this.BACKENDPATH+"/get_bboxes"
             return new Promise((resolve, reject) =>
                 axios.get(path).then(
                     (res) => {
@@ -129,7 +132,7 @@ export default {
 
         // Post methods
         post_chosen_font_size() {
-            const path = "http://localhost:5001/post_font_size"
+            const path = this.BACKENDPATH+"/post_font_size"
             const post_obj = this.size_font_data.filter((item) => item.chosen).map(item => { return { 'size': item.size, 'font': item.font, } })
             axios.post(path, post_obj)
                 .then(
@@ -192,7 +195,11 @@ export default {
         change_pdf() {
             if (this.pdf_path == '') return
 
-            const path = 'http://localhost:5001/change_pdf'
+            // 刷新其他组件的数据
+            this.$refs.VoiceControls.
+            this.$refs.AudioControls.clear_all()
+
+            const path = this.BACKENDPATH+'/change_pdf'
             axios.post(path, {
                 'path': this.pdf_path,
             }).then(
@@ -202,6 +209,10 @@ export default {
                 }
             ).catch(
                 (error) => { console.log(error) }
+            ).then(
+                () => {
+                    this.$refs.VoiceControls.get_filtered_text()
+                }
             )
         },
         keyup_submit(event) {
@@ -312,31 +323,33 @@ export default {
             this.refresh_checkbox_by_data()
             this.bbox_respond_to_change()
         },
-        nav_bar_change() {
-            if (this.nav_bool) {
+        nav_bar_change(num) {
+            if (this.nav_num==num) return
+            this.nav_num=num
+            
+            this.nav_bar_visibility_rerender(num)
+            if (this.nav_num==2) {
                 this.post_chosen_font_size()
                 this.$refs.VoiceControls.get_filtered_text()
                 this.$refs.VoiceControls.page_select()
             }
-            this.nav_bool = !this.nav_bool
-            this.nav_bar_visibility_rerender()
         },
-        nav_bar_visibility_rerender() {
-            // nav_bool=true : bbox selecting bar
-            const nav_1 = document.getElementById('nav-1')
-            const nav_2 = document.getElementById('nav-2')
-            if (this.nav_bool) {
-                nav_1.classList.remove('invisible')
-                nav_2.classList.add('invisible')
-            }
-            else {
-                nav_1.classList.add('invisible')
-                nav_2.classList.remove('invisible')
+        nav_bar_visibility_rerender(num) {
+            // nav_num=true : bbox selecting bar
+            const nav_1 = window.parent.document.getElementById('nav-1')
+            const nav_2 = window.parent.document.getElementById('nav-2')
+            const nav_3 = window.parent.document.getElementById('nav-3')
+            let nav_list=[nav_1,nav_2,nav_3]
+            for (let i=1;i<=nav_list.length;i++){
+                // if (nav_list[i]==undefined) console.log('nav_list[',i,'] is undefined')
+
+                if (i==num) nav_list[i-1].classList.remove('invisible')
+                else nav_list[i-1].classList.add('invisible')
             }
         },
-        reload_config(){
-            const path = 'http://localhost:5001/reload_config'
-            axios.post(path,{}).then(
+        reload_config() {
+            const path = this.BACKENDPATH+'/reload_config'
+            axios.post(path, {}).then(
                 (res) => {
                     console.log(res)
                 }
@@ -344,6 +357,14 @@ export default {
                 (error) => { console.log(error) }
             )
         },
+        change_width() {
+            const left_width=String(this.width_control * 100) + '%'
+            const right_width=String((1-this.width_control) * 100) + '%'
+            const left = window.parent.document.getElementById('left')
+            const right = window.parent.document.getElementById('right')
+            left.style.width=left_width
+            right.style.width=right_width
+        }
     }
 
 }
@@ -360,8 +381,14 @@ export default {
             </button>
         </div>
         <div class="nav-header">
-            <button type="button" class="btn btn-sm" @click="nav_bar_change">
-                切换视图
+            <button type="button" class="btn btn-sm" @click="()=>nav_bar_change(1)">
+                视图1
+            </button>
+            <button type="button" class="btn btn-sm" @click="()=>nav_bar_change(2)">
+                视图2
+            </button>
+            <button type="button" class="btn btn-sm" @click="()=>nav_bar_change(3)">
+                视图3
             </button>
         </div>
 
@@ -389,12 +416,15 @@ export default {
             <button type="button" class="btn btn-sm" @click="reload_config">
                 config.json Reload
             </button>
+            <div class="width-control">
+                <input type="number" step="0.05" max="0.8" min="0.1" v-model="width_control" @input="change_width"/>
+            </div>
         </div>
 
         <div class="nav-1" id="nav-1">
 
 
-            <div class="container">
+            <div class="counter-container">
                 <h2 class="mt-3">Counter</h2>
                 <div class="input-group mb-3" style="max-width: 200px;">
                     <div class="input-group-prepend">
@@ -428,6 +458,9 @@ export default {
         <div class="nav-2 invisible" id="nav-2">
             <VoiceControls ref="VoiceControls" />
         </div>
+        <div class="nav-3 invisible" id="nav-3">
+            <AudioControls />
+        </div>
     </div>
 
 </template>
@@ -445,4 +478,7 @@ export default {
 .invisible {
     display: none;
 }
+/* .list-group{
+    max-height: 500px;
+} */
 </style>
