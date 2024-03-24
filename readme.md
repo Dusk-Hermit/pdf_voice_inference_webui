@@ -32,7 +32,7 @@ npm install
 ```
 
 #### 5
-在`server/write_config.py`中，修改config_list并用任意python解释器执行以下该脚本，以更新`server/config.json`
+在`server/write_config.py`中，修改其中的`config_list`变量，并用任意python解释器执行以下该脚本`python write_config.py`，以更新`server/config.json`
 需要修改的包括
 - GPT_SoVITS项目的根目录地址
 - 默认选择用来进行推理的GPT和SoVITS权重
