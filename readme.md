@@ -69,3 +69,8 @@ if (wav16k.shape[0] > 160000 or wav16k.shape[0] < 48000):
 
 ### 致谢
 https://github.com/RVC-Boss/GPT-SoVITS
+
+
+<hr>
+
+*我在另一台电脑上配置测试过了，暂时没发现什么问题，但是仍然可能存在bug，如果在您的机器上出现了非常抱歉*
