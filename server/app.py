@@ -349,4 +349,4 @@ def serve_audio(filename):
 
     
 if __name__ == "__main__":
-    app.run(debug=True, port=global_config.server_port)
+    app.run(debug=False, port=global_config.server_port)

@@ -4,7 +4,7 @@
 在 https://github.com/RVC-Boss/GPT-SoVITS 这个仓库下载GPT-SoVITS项目（windows版在这里有整合包），并使用它自带的webui，用你自己的音频素材，完成模型的训练
 推荐教程：https://www.bilibili.com/video/BV1P541117yn/
 
-*若不使用整合包，自己安装路径，应该修改`server/app.py`中`Popen`函数对应的调用的GPTSoVITS的python环境*
+*若不使用整合包，自己配置环境，应该修改`server/app.py`中`Popen`函数对应的调用的GPTSoVITS的python环境*
 
 #### 2
 
@@ -24,6 +24,14 @@ pip install -r requirements.txt
 ```
 
 #### 4
+
+用cmd进入`client`文件夹，并`npm install`。需要在机器上安装好nodejs
+```cmd
+cd client
+npm install
+```
+
+#### 5
 在`server/write_config.py`中，修改config_list并用任意python解释器执行以下该脚本，以更新`server/config.json`
 需要修改的包括
 - GPT_SoVITS项目的根目录地址
@@ -32,8 +40,20 @@ pip install -r requirements.txt
 - 默认打开的pdf文件目录（如果这是无效地址会启动失败……）
 - *其他选项是可以不用特殊指定，有默认值的*
 
-#### 5
-复制`inference_webui_copy.py`文件，到你的GPT_SoVITS项目目录下的`GPT_SoVITS`文件夹中，该文件夹中应本有一个`inference_webui.py`文件。*这个copy文件实际上就是前者注释掉两行，然后再删掉启动它的webui的代码*
+#### 6
+在你的GPT_SoVITS项目根目录中，进入`GPT_SoVITS`文件夹，复制`inference_webui.py`一份，重命名为`inference_webui_copy.py`，*该名称在本项目中被引用，不应乱改*，然后这样修改`inference_webui_copy.py`：
+
+1. 找到文件中的以下代码，并把这两行注释掉（这两行行首加上`#`）。*本项目通过对参考音频做音频时间处理，来实现推理语速控制*
+```py
+if (wav16k.shape[0] > 160000 or wav16k.shape[0] < 48000):
+    raise OSError(i18n("参考音频在3~10秒范围外，请更换！"))
+```
+2. 从最后看，找到`with gr.Blocks(title="GPT-SoVITS WebUI") as app:`这一行，把这一行及以下所有代码删掉。*不同版本的GPT_SoVITS项目的该文件代码会有些许差别，因此请用自己下载的版本的该文件，并进行修改*
 
 #### 6
-双击`run.bat`即可打开
+双击`run.bat`即可打开webui
+
+
+
+### 致谢
+https://github.com/RVC-Boss/GPT-SoVITS

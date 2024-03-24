@@ -5,7 +5,7 @@ with open(config_path,'r',encoding='utf-8') as f:
 GPTSOVITS_BASE=config['GPTSOVITS_BASE']
 server_port=config['server_port']
 
-sys.path.append(GPTSOVITS_BASE)
+sys.path.append(os.path.join(GPTSOVITS_BASE,'GPT_SoVITS'))
 os.chdir(GPTSOVITS_BASE)
 
 from inference_webui_copy import get_tts_wav,i18n,change_sovits_weights,change_gpt_weights
