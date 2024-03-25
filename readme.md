@@ -75,6 +75,10 @@ https://www.bilibili.com/video/BV1iD42177Vz/
 ### 致谢
 https://github.com/RVC-Boss/GPT-SoVITS
 
+### 已知问题
+- bbox显示用JavaScript计算，且一次加载整个pdf的数据，每次计算都用所有的数据，所以在几百页的pdf上会卡死
+- 流程处理还有些错误，点击interrupt后，后台会等待这一次音频推理完成再结束，但是如果马上上了一个新generate任务，呃这还没有用任务队列，会出现问题……
+- 对于推理接口自身执行时报错，这个后端的状态可能没有同步上去，比如上一次generate过程中出错了，之后一次interrupt或者generate就会乱了后端管理的状态
 
 <hr>
 
