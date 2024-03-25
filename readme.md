@@ -65,7 +65,7 @@ if (wav16k.shape[0] > 160000 or wav16k.shape[0] < 48000):
 
 
 ### 演示视频
-...
+https://www.bilibili.com/video/BV1iD42177Vz/
 
 ### 权重示例
 这是用琴柳中文语音训练了一会会的语音，可以直接下载进行推理使用
