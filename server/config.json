@@ -5,7 +5,11 @@
     "ref_wav_path": "E:\\GPTsoVITs权重\\花火2\\refer_audio\\好吧好吧～我只是想说…如果你需要，我随时都可以帮你哦？谁能拒绝一位在鸡翅膀上打钉饰的男孩呢？.wav",
     "prompt_text": "好吧好吧～我只是想说…如果你需要，我随时都可以帮你哦？谁能拒绝一位在鸡翅膀上打钉饰的男孩呢？",
     "prompt_language_text": "中文",
+<<<<<<< HEAD
     "default_pdf_path": "D:\\repos\\pdf_voice_inference_webui\\2308.04079v1.pdf",
+=======
+    "default_pdf_path": "C:/Users/Dusk_Hermit/Desktop/大三下学习资料/人工智能/参考阅读/Pattern Recognition and Machine Learning (Information Science and Statistics) .pdf",
+>>>>>>> d5f10ec6d67e3b94056fbb2edb9638e830755485
     "server_port": 51876,
     "client_port": 51877
 }

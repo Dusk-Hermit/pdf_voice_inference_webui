@@ -154,8 +154,8 @@ def generate_handle():
     global_config.p = subprocess.Popen(
         [os.path.join(GPTSOVITS_BASE,'runtime','python'),'inference_api.py'],
         shell=True,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+        # stdout=subprocess.DEVNULL,
+        # stderr=subprocess.DEVNULL,
     )
     print(f"pid: {global_config.p.pid}")
 
@@ -169,7 +169,7 @@ def generate_handle():
 
 
 def voice_output_path(page_no, block_num):
-    pdf_name = get_this_pdf_name()
+    pdf_name = get_this_pdf_name_for_dir()
     return os.path.join(
         global_config.voicecontrol.output_base,
         pdf_name,
@@ -178,7 +178,7 @@ def voice_output_path(page_no, block_num):
     )
 
 def generate_temp_ref_wav_path():
-    pdf_name = get_this_pdf_name()
+    pdf_name = get_this_pdf_name_for_dir()
     return os.path.join(
         global_config.voicecontrol.output_base,
         pdf_name,
@@ -187,6 +187,9 @@ def generate_temp_ref_wav_path():
 
 def get_this_pdf_name():
     return ".".join(os.path.basename(global_config.pdf_file_path).split(".")[:-1])
+
+def get_this_pdf_name_for_dir():
+    return get_this_pdf_name().strip()
 
 def make_task_json(params):
     # with open('tempdata.json','w',encoding='utf-8') as f:
@@ -200,7 +203,7 @@ def make_task_json(params):
         return False
 
     # 文件夹建立
-    os.makedirs(os.path.join(global_config.voicecontrol.output_base, get_this_pdf_name(), 'voice_output'), exist_ok=True)
+    os.makedirs(os.path.join(global_config.voicecontrol.output_base, get_this_pdf_name_for_dir(), 'voice_output'), exist_ok=True)
 
     # 调整ref_wav的速率并保存为暂存文件
     temp_ref_wav_path = generate_temp_ref_wav_path()
@@ -263,6 +266,9 @@ def set_interrupt():
     """
     if global_config.inferencing:
         global_config.should_interrupt = True
+    # 如果inference进程异常退出，已经结束，则设置inferencing为False
+    if global_config.p.poll() is not None:
+        global_config.inferencing = False
     return jsonify("interrupt set")
 
 
@@ -298,7 +304,7 @@ def reload_config():
 @app.route("/clear_voice_output", methods=["POST",'GET'])
 def clear_voice_output():
 
-    pdf_name = get_this_pdf_name()
+    pdf_name = get_this_pdf_name_for_dir()
     voice_output_dir = os.path.join(global_config.voicecontrol.output_base, pdf_name, 'voice_output')
     for f in os.listdir(voice_output_dir):
         os.remove(os.path.join(voice_output_dir, f))
@@ -313,7 +319,7 @@ def clear_voice_output():
 
 @app.route("/task_list", methods=['GET'])
 def task_list():
-    this_output_path=os.path.join(global_config.voicecontrol.output_base,get_this_pdf_name(),'voice_output')
+    this_output_path=os.path.join(global_config.voicecontrol.output_base,get_this_pdf_name_for_dir(),'voice_output')
     audio_already_exist=[os.path.join(this_output_path,f) for f in os.listdir(this_output_path)]
     if os.path.exists('data.json'):
         with open('data.json','r',encoding='utf-8') as f:
@@ -339,7 +345,7 @@ def serve_audio(filename):
     # 返回 WAV 音频文件
     absolute_file_path= os.path.join(
         global_config.voicecontrol.output_base,
-        get_this_pdf_name(),
+        get_this_pdf_name_for_dir(),
         'voice_output',
         filename
     )

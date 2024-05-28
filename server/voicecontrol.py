@@ -88,9 +88,25 @@ class VoiceControl:
     def text_process(self,text):
         text=self.text_clean(text)
         
-        text_list=text.replace(',','\n').replace('，','\n').replace('。','\n').replace('!','\n').replace('！','!').replace('?','\n').replace('？','?').split('\n')
+        text_list=text.replace('- ','').replace(', ','\n').replace('. ','\n').replace('，','\n').replace('。','\n').replace('！','!').replace('!','\n').replace('？','?').replace('?','\n').replace('  ',' ').split('\n')
         text_list=[k.strip() for k in text_list if k]
-        text=',\n'.join(text_list)
+        print(text_list)
+        # 50字一段，总是以句号结尾
+        text_list_new=[]
+        temp=''
+        for k in text_list:
+            if len(temp)<50:
+                temp+=k+'.'
+            else:
+                text_list_new.append(temp)
+                temp=k+'.'
+        if len(text_list_new)==0:
+            text_list_new.append(temp)
+        else:
+            text_list_new[-1]+=temp
+        
+        text='\n'.join(text_list_new)        
+        
         return text
     
     def text_clean(self,text):
@@ -127,4 +143,10 @@ class VoiceControl:
 
 if __name__ == "__main__":
     vc=VoiceControl()
-    vc.wav_speed_change(r"D:\git_download\GPT-SoVITS-beta0217\pdf_inference_webui\server\slowed.wav",r"D:\git_download\GPT-SoVITS-beta0217\pdf_inference_webui\server\slowed2.wav",0.8)
+    # vc.wav_speed_change(r"D:\git_download\GPT-SoVITS-beta0217\pdf_inference_webui\server\slowed.wav",r"D:\git_download\GPT-SoVITS-beta0217\pdf_inference_webui\server\slowed2.wav",0.8)
+    
+    print(vc.text_process('''A central task in the application of probabilistic models is the evaluation of the pos-
+terior distribution p(Z|X) of the latent variables Z given the observed (visible) data
+variables X, and the evaluation of expectations computed with respect to this dis-
+tribution. The model might also contain some deterministic parameters, which we
+will leave implicit for the moment, or it may be a '''))

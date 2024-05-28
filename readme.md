@@ -1,3 +1,12 @@
+### 功能一览
+- 切换pdf路径，下次打开同一个pdf
+- 根据字体和字号筛选pdf内文本内容（视图1的列表内信息是：字体、字号、pdf内此字体字号的所有字符数，以字符数从大到小排序）
+- 在上述筛选的结果下，根据页号、该block内筛选后的最少文字数，进行进一步筛选
+- 一键推理，生成语音
+- 界面内语音自动连播
+  - *pdf的结构是：page-block-line-span-char*
+
+
 ### 使用方法
 
 #### 1
@@ -51,8 +60,16 @@ if (wav16k.shape[0] > 160000 or wav16k.shape[0] < 48000):
 2. 从最后看，找到`with gr.Blocks(title="GPT-SoVITS WebUI") as app:`这一行，把这一行及以下所有代码删掉。*不同版本的GPT_SoVITS项目的该文件代码会有些许差别，因此请用自己下载的版本的该文件，并进行修改*
 
 #### 6
-双击`run.bat`即可打开webui
+双击`run.bat`即启动，然后再浏览器中输入`http://localhost:51877`打开webui页面
+*修改端口号，需修改`client/src/main.js`，以及用`write_config.py`修改`config.json`*
 
+
+### 演示视频
+https://www.bilibili.com/video/BV1iD42177Vz/
+
+### 权重示例
+这是用琴柳中文语音训练了一会会的语音，可以直接下载进行推理使用
+链接：https://pan.baidu.com/s/1cvQ4MbyatudMpIK7JYeLCw?pwd=7bip 
 
 
 ### 致谢
