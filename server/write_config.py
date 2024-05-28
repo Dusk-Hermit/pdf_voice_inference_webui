@@ -1,18 +1,18 @@
 import json, os
 
 config_list = {
-    "GPTSOVITS_BASE": r"D:\git_download\GPT-SoVITS-beta0217",
-    "default_gpt_weight":r"D:\git_download\GPT-SoVITS-beta0217\GPT_weights\saileach-e15.ckpt",
-    "default_sovits_weight":r"D:\git_download\GPT-SoVITS-beta0217\SoVITS_weights\saileach_e8_s232.pth",
+    "GPTSOVITS_BASE": r"D:\repos\GPT-SoVITS-beta0306fix2",
+    "default_gpt_weight":r"D:\repos\GPT-SoVITS-beta0306fix2\GPT_weights\auto_花火2_huahuo-e100.ckpt",
+    "default_sovits_weight":r"D:\repos\GPT-SoVITS-beta0306fix2\SoVITS_weights\auto_花火2_huahuo_e100_s1100.pth",
     # "output_base":r"D:\git_download\GPT-SoVITS-beta0217\pdf_inference_webui\output",
     
-    "ref_wav_path":r"C:\Users\Dusk_Hermit\Desktop\saileach\raw\信赖触摸.wav",
-    "prompt_text":"您是不是累了？这是我烤的甜司康饼。您可以坐下来，喝点茶，与我说说您的烦心事。",
+    "ref_wav_path":r"E:\GPTsoVITs权重\花火2\refer_audio\好吧好吧～我只是想说…如果你需要，我随时都可以帮你哦？谁能拒绝一位在鸡翅膀上打钉饰的男孩呢？.wav",
+    "prompt_text":"好吧好吧～我只是想说…如果你需要，我随时都可以帮你哦？谁能拒绝一位在鸡翅膀上打钉饰的男孩呢？",
     "prompt_language_text":"中文",
     
     # "default_infer_language":"中英混合",
     
-    'default_pdf_path':r"D:\git_download\read-aloud\1706.03762.pdf",
+    'default_pdf_path':r"D:\repos\pdf_voice_inference_webui\2308.04079v1.pdf",
     
     'server_port':51876,
     'client_port':51877,

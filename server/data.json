@@ -1,15 +1,47 @@
 [
     {
-        "gpt_weight": "D:\\git_download\\GPT-SoVITS-beta0217\\GPT_weights\\saileach-e15.ckpt",
-        "sovits_weight": "D:\\git_download\\GPT-SoVITS-beta0217\\SoVITS_weights\\saileach_e8_s232.pth",
+        "gpt_weight": "D:\\repos\\GPT-SoVITS-beta0306fix2\\GPT_weights\\auto_花火2_huahuo-e100.ckpt",
+        "sovits_weight": "D:\\repos\\GPT-SoVITS-beta0306fix2\\SoVITS_weights\\auto_花火2_huahuo_e100_s1100.pth",
         "lines": [
             {
-                "ref_wav_path": "D:\\git_download\\GPT-SoVITS-beta0217\\pdf_inference_webui\\output\\lab1-21307130050-张博远\\temp_ref.wav",
-                "prompt_text": "您是不是累了?这是我烤的甜司康饼,\n您可以坐下来,\n喝点茶,\n与我说说您的烦心事",
+                "ref_wav_path": "D:\\repos\\pdf_voice_inference_webui\\output\\2308.04079v1\\temp_ref.wav",
+                "prompt_text": "好吧好吧～我只是想说…如果你需要,\n我随时都可以帮你哦?谁能拒绝一位在鸡翅膀上打钉饰的男孩呢?",
                 "prompt_language_text": "中文",
-                "text": "之前对这个问题,\n自己想到了一些正则表达式的写法,\n实现为代码的时候,\n总是编译错误,\n要么能够编译规则却这个规则却在某些例子中,\n解析结果在某个顶层节",
-                "text_language_text": "中英混合",
-                "output_file_path": "D:\\git_download\\GPT-SoVITS-beta0217\\pdf_inference_webui\\output\\lab1-21307130050-张博远\\voice_output\\page_0001_block_0016.wav"
+                "text": "and Yu et al .  2022; Müller et al  2022],\nbut struggle to achieve the visual quality obtained by the current SOTA NeRF methods,\ni.e.,\nMip-NeRF360 [Barron et al  2022],\nwhich requires up to 48 hours of training time. The fast – but lower-quality – radiance field methods can achieve interactive rendering times depending on the scene (10-15 frames per second),\nbut fall short of real-time rendering at high resolution. Our solution builds on three main components. We first intro- duce  as a flexible and expressive scene representation. We start with the same input as previous NeRF-like methods,\ni.e.,\ncameras calibrated with Structure-from-Motion (SfM) [Snavely et al 2006] and initialize the set of 3D Gaussians with the sparse point cloud produced for free as part of the SfM process. In contrast to most point-based solutions that require Multi-View Stereo (MVS) data [Aliev et al  2020; Kopanas et al  2021; Rückert et al  2022],\nwe achieve high-quality results with only SfM points as input. Note that for the NeRF-synthetic dataset,\nour method achieves high qual- ity even with random initialization. We show that 3D Gaussians are an excellent choice,\nsince they are a differentiable volumetric representation,\nbut they can also be rasterized very efficiently by projecting them to 2D,\nand applying standard -blending,\nusing an equivalent image formation model as NeRF. The second component of our method is optimization of the properties of the 3D Gaussians – 3D position,\nopacity,\nanisotropic covariance,\nand spherical har- monic (SH) coefficients – interleaved with adaptive density control steps,\nwhere we add and occasionally remove 3D Gaussians during optimization. The optimization procedure produces a reasonably compact,\nunstructured,\nand precise representation of the scene (1-5 million Gaussians for all scenes tested). The third and final element of our method is our real-time rendering solution that uses fast GPU sorting algorithms and is inspired by tile-based rasterization,\nfol- lowing recent work [Lassner and Zollhofer 2021]. However,\nthanks to our 3D Gaussian representation,\nwe can perform anisotropic splatting that respects visibility ordering – thanks to sorting and - blending – and enable a fast and accurate backward pass by tracking the traversal of as many sorted splats as required. To summarize,\nwe provide the following contributions:",
+                "text_language_text": "英文",
+                "output_file_path": "D:\\repos\\pdf_voice_inference_webui\\output\\2308.04079v1\\voice_output\\page_0002_block_0001.wav"
+            },
+            {
+                "ref_wav_path": "D:\\repos\\pdf_voice_inference_webui\\output\\2308.04079v1\\temp_ref.wav",
+                "prompt_text": "好吧好吧～我只是想说…如果你需要,\n我随时都可以帮你哦?谁能拒绝一位在鸡翅膀上打钉饰的男孩呢?",
+                "prompt_language_text": "中文",
+                "text": "Our results on previously published datasets show that we can opti- mize our 3D Gaussians from multi-view captures and achieve equal or better quality than the best quality previous implicit radiance field approaches. We also can achieve training speeds and quality similar to the fastest methods and importantly provide the first  with high quality for novel-view synthesis.",
+                "text_language_text": "英文",
+                "output_file_path": "D:\\repos\\pdf_voice_inference_webui\\output\\2308.04079v1\\voice_output\\page_0002_block_0005.wav"
+            },
+            {
+                "ref_wav_path": "D:\\repos\\pdf_voice_inference_webui\\output\\2308.04079v1\\temp_ref.wav",
+                "prompt_text": "好吧好吧～我只是想说…如果你需要,\n我随时都可以帮你哦?谁能拒绝一位在鸡翅膀上打钉饰的男孩呢?",
+                "prompt_language_text": "中文",
+                "text": "similarity; radiance fields are a vast area,\nso we focus only on directly related work. For complete coverage of the field,\nplease see the excellent recent surveys [Tewari et al. 2022; Xie et al. 2022].",
+                "text_language_text": "英文",
+                "output_file_path": "D:\\repos\\pdf_voice_inference_webui\\output\\2308.04079v1\\voice_output\\page_0002_block_0008.wav"
+            },
+            {
+                "ref_wav_path": "D:\\repos\\pdf_voice_inference_webui\\output\\2308.04079v1\\temp_ref.wav",
+                "prompt_text": "好吧好吧～我只是想说…如果你需要,\n我随时都可以帮你哦?谁能拒绝一位在鸡翅膀上打钉饰的男孩呢?",
+                "prompt_language_text": "中文",
+                "text": "The first novel-view synthesis approaches were based on light fields,\nfirst densely sampled [Gortler et al .  1996; Levoy and Hanrahan 1996] then allowing unstructured capture [Buehler et al  2001]. The advent of Structure-from-Motion (SfM) [Snavely et al  2006] enabled an entire new domain where a collection of photos could be used to synthesize novel views. SfM estimates a sparse point cloud during camera calibration,\nthat was initially used for simple visualization of 3D space. Subsequent multi-view stereo (MVS) produced im- pressive full 3D reconstruction algorithms over the years [Goesele et al  2007],\nenabling the development of several view synthesis algorithms [Chaurasia et al  2013; Eisemann et al  2008; Hedman  2018; Kopanas et al  2021]. All these methods  and  the input images into the novel view camera,\nand use the geometry to guide this re-projection. These methods produced ex- cellent results in many cases,\nbut typically cannot completely re- cover from unreconstructed regions,\nor from “over-reconstruction”,\nwhen MVS generates inexistent geometry. Recent neural render- ing algorithms [Tewari et al  2022] vastly reduce such artifacts and avoid the overwhelming cost of storing all input images on the GPU,\noutperforming these methods on most fronts.",
+                "text_language_text": "英文",
+                "output_file_path": "D:\\repos\\pdf_voice_inference_webui\\output\\2308.04079v1\\voice_output\\page_0002_block_0010.wav"
+            },
+            {
+                "ref_wav_path": "D:\\repos\\pdf_voice_inference_webui\\output\\2308.04079v1\\temp_ref.wav",
+                "prompt_text": "好吧好吧～我只是想说…如果你需要,\n我随时都可以帮你哦?谁能拒绝一位在鸡翅膀上打钉饰的男孩呢?",
+                "prompt_language_text": "中文",
+                "text": "Deep learning techniques were adopted early for novel-view synthe- sis [Flynn et al .  2016; Zhou et al  2016]; CNNs were used to estimate blending weights [Hedman et al  2018],\nor for texture-space solutions [Riegler and Koltun 2020; Thies et al  2019]. The use of MVS-based geometry is a major drawback of most of these methods; in addition,\nthe use of CNNs for final rendering frequently results in temporal flickering. Volumetric representations for novel-view synthesis were ini- tiated by Soft3D [Penner and Zhang 2017]; deep-learning tech- niques coupled with volumetric ray-marching were subsequently proposed [Henzler et al  2019; Sitzmann et al  2019] building on a con- tinuous differentiable density field to represent geometry. Rendering using volumetric ray-marching has a significant cost due to the large number of samples required to query the volume. Neural Radiance Fields (NeRFs) [Mildenhall et al  2020] introduced importance sam- pling and positional encoding to improve quality,\nbut used a large Multi-Layer Perceptron negatively affecting speed. The success of NeRF has resulted in an explosion of follow-up methods that address quality and speed,\noften by introducing regularization strategies; the current state-of-the-art in image quality for novel-view synthesis is Mip-NeRF360 [Barron et al  2022]. While the rendering quality is outstanding,\ntraining and rendering times remain extremely high; we are able to equal or in some cases surpass this quality while providing fast training and real-time rendering. The most recent methods have focused on faster training and/or rendering mostly by exploiting three design choices: the use of spa- tial data structures to store (neural) features that are subsequently interpolated during volumetric ray-marching,\ndifferent encodings",
+                "text_language_text": "英文",
+                "output_file_path": "D:\\repos\\pdf_voice_inference_webui\\output\\2308.04079v1\\voice_output\\page_0002_block_0012.wav"
             }
         ]
     }

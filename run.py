@@ -2,6 +2,8 @@ import subprocess
 import os
 import signal
 import time
+import webbrowser
+import json
 
 def start_processes():
     # 开启第一个进程，执行 Flask 应用
@@ -23,6 +25,11 @@ if __name__ == "__main__":
     try:
         # 开启两个进程
         processes = start_processes()
+        
+        with open('server/config.json', 'r',encoding='utf-8') as f:
+            config = json.loads(f.read())
+            # 打开浏览器，访问client端口
+            webbrowser.open(f'http://localhost:{config["client_port"]}')
 
         # 循环等待脚本停止
         while True:

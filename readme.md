@@ -57,3 +57,5 @@ if (wav16k.shape[0] > 160000 or wav16k.shape[0] < 48000):
 
 ### 致谢
 https://github.com/RVC-Boss/GPT-SoVITS
+
+*gptsovits换成了`GPT-SoVITS-beta0306fix2`这个版本的整合包，也能用*
